@@ -1,0 +1,3 @@
+[submodule "PyWordReference"]
+	path = PyWordReference
+	url = git@github.com:FedericoVaga/PyWordReference.git
