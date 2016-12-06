@@ -1,0 +1,87 @@
+#!/usr/bin/python
+
+import cmd, sys
+
+import PyWordReference
+
+class DictionaryShell(cmd.Cmd):
+    intro = 'Welcome to the turtle shell.   Type help or ? to list commands.\n'
+    prompt = '(dictionary) '
+    file = None
+
+    def __find_wr_trans(self, _from, _to, arg):
+        """Run Transation using Wordreference"""
+        w = PyWordReference.Translator()
+        res = w.search(_from, _to, arg)
+        print("Copyright WordReference: {url}".format(url=res["url"]))
+        for t in res["translation"]:
+            print(str(t).encode('ascii', 'ignore').decode("ascii"))
+
+    def find_wr_enit(self, arg):
+        """Find function from English to Italian using Wordreference"""
+        self.__find_wr_trans("en", "it", arg)
+
+    def find_wr_iten(self, arg):
+        """Find function from Italian to English using Wordreference"""
+        self.__find_wr_trans("en", "it", arg)
+
+    dictionaries = {
+        "wr-enit" : {
+            "name": "wr-enit",
+            "description": "Translate English to Italian using WordReference",
+            "find": find_wr_enit,
+        },
+        "wr-iten" : {
+            "name": "wr-iten",
+            "description": "Translate Italian to English using WordReference",
+            "find": find_wr_iten,
+        },
+    }
+
+    def __init__(self):
+        self.current_dictionary = "N/A"
+        super(DictionaryShell, self).__init__()
+
+    def do_quit(self, arg):
+        """quit, q: exit from this program"""
+        return True
+
+    do_EOF = do_quit
+    do_q = do_quit
+
+    def do_list(self, arg):
+        """list, l: list all available dictionaries"""
+        for d in self.dictionaries:
+            print("{name}: {description}".format(**self.dictionaries[d]))
+
+    do_l = do_list
+
+    def do_select(self, arg):
+        """select,s: select the dictionary to use"""
+        if arg in self.dictionaries:
+            self.current_dictionary = arg
+        else:
+            print("Dictionary \"{}\" does not exist".format(arg))
+
+    do_s = do_select
+
+    def do_current(self, arg):
+        """current, c: show current dictionary"""
+        print(self.current_dictionary)
+
+    do_c = do_current
+
+    def do_find(self, arg):
+        """find, f: find a word in the current dictionary"""
+        if " " in arg:
+            print("For the time being this program support only single words")
+            return False
+        self.dictionaries[self.current_dictionary]["find"](self, arg)
+
+    do_f = do_find
+
+    do_h = cmd.Cmd.do_help
+
+
+if __name__ == '__main__':
+    DictionaryShell().cmdloop()
