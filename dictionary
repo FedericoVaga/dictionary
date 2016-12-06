@@ -1,8 +1,17 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+import inspect
+import cmd
+import sys
+import os
 
-import cmd, sys
-
-import PyWordReference
+try:
+    import PyWordReference
+except Exception as e:
+    module_path = os.path.join(
+                      os.path.dirname(
+                         os.path.abspath(inspect.getsourcefile(lambda:0))),
+                                         "PyWordReference")
+    sys.path.append(module_path)
 
 class DictionaryShell(cmd.Cmd):
     intro = 'Welcome to the turtle shell.   Type help or ? to list commands.\n'
