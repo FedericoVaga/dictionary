@@ -32,7 +32,7 @@ class DictionaryShell(cmd.Cmd):
 
     def find_wr_iten(self, arg):
         """Find function from Italian to English using Wordreference"""
-        self.__find_wr_trans("en", "it", arg)
+        self.__find_wr_trans("it", "en", arg)
 
     dictionaries = {
         "wr-enit" : {
