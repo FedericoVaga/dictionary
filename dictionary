@@ -10,8 +10,10 @@ except Exception as e:
     module_path = os.path.join(
                       os.path.dirname(
                          os.path.abspath(inspect.getsourcefile(lambda:0))),
-                                         "PyWordReference")
+                                         "PyWordReference-submodule")
     sys.path.append(module_path)
+    import PyWordReference
+
 
 class DictionaryShell(cmd.Cmd):
     intro = 'Welcome to the turtle shell.   Type help or ? to list commands.\n'
