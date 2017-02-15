@@ -64,14 +64,12 @@ class DictionaryShell(cmd.Cmd):
         return True
 
     do_EOF = do_quit
-    do_q = do_quit
 
     def do_list(self, arg):
         """list, l: list all available dictionaries"""
         for d in self.dictionaries:
             print("{name}: {description}".format(**self.dictionaries[d]))
 
-    do_l = do_list
 
     def do_select(self, arg):
         """select,s: select the dictionary to use"""
@@ -80,13 +78,10 @@ class DictionaryShell(cmd.Cmd):
         else:
             print("Dictionary \"{}\" does not exist".format(arg))
 
-    do_s = do_select
 
     def do_current(self, arg):
         """current, c: show current dictionary"""
         print(self.current_dictionary)
-
-    do_c = do_current
 
     def do_find(self, arg):
         """find, f: find a word in the current dictionary"""
@@ -94,10 +89,6 @@ class DictionaryShell(cmd.Cmd):
             print("For the time being this program support only single words")
             return False
         self.dictionaries[self.current_dictionary]["find"](self, arg)
-
-    do_f = do_find
-
-    do_h = cmd.Cmd.do_help
 
 
 if __name__ == '__main__':
