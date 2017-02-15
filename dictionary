@@ -67,9 +67,13 @@ class DictionaryShell(cmd.Cmd):
 
     def do_list(self, arg):
         """list, l: list all available dictionaries"""
-        for d in self.dictionaries:
-            print("{name}: {description}".format(**self.dictionaries[d]))
 
+        for d in self.dictionaries:
+            if d == self.current_dictionary:
+                print("[{name}]: {description}".format(**self.dictionaries[d]))
+            else:
+                print("{name}: {description}".format(**self.dictionaries[d]))
+        print("")
 
     def do_select(self, arg):
         """select,s: select the dictionary to use"""
@@ -77,11 +81,6 @@ class DictionaryShell(cmd.Cmd):
             self.current_dictionary = arg
         else:
             print("Dictionary \"{}\" does not exist".format(arg))
-
-
-    def do_current(self, arg):
-        """current, c: show current dictionary"""
-        print(self.current_dictionary)
 
     def do_find(self, arg):
         """find, f: find a word in the current dictionary"""
