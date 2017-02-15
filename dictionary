@@ -30,6 +30,7 @@ class DictionaryShell(cmd.Cmd):
             print("Copyright WordReference: {url}".format(url=res["url"]))
             for t in res["translation"]:
                 print(str(t).encode('ascii', 'ignore').decode("ascii"))
+            print("")
         except PyWordReference.TranslatorException as e:
             print(e)
 
