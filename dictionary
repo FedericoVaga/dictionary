@@ -1,8 +1,10 @@
 #!/usr/bin/python3
+import argparse
 import inspect
 import cmd
 import sys
 import os
+
 
 try:
     import PyWordReference
@@ -49,8 +51,9 @@ class DictionaryShell(cmd.Cmd):
         },
     }
 
-    def __init__(self):
+    def __init__(self, wr_api_key=None):
         self.current_dictionary = "N/A"
+        self.wr_api_key = wr_api_key
         super(DictionaryShell, self).__init__()
 
     def do_quit(self, arg):
@@ -95,4 +98,12 @@ class DictionaryShell(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    DictionaryShell().cmdloop()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--wr-api-key', dest='api_key', default=None,
+                    help='WordReference API key')
+    args = parser.parse_args()
+
+    if args.api_key is None and 'WR_API_KEY' in os.environ:
+        args.api_key = os.environ['WR_API_KEY']
+
+    DictionaryShell(wr_api_key=args.api_key).cmdloop()
