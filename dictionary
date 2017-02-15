@@ -58,16 +58,30 @@ class DictionaryShell(cmd.Cmd):
         self.current_dictionary = "N/A"
         self.wr_api_key = wr_api_key
         super(DictionaryShell, self).__init__()
+        self.do_help("")
+        self.intro = """
+This is a command line tools to access online dictionaries.
+
+Read the command help message for more information about how to use the command.
+"""
 
     def do_quit(self, arg):
-        """quit, q: exit from this program"""
+        """
+        quit: exit from this program
+        """
         return True
 
     do_EOF = do_quit
 
     def do_list(self, arg):
-        """list, l: list all available dictionaries"""
+        """
+        list: list all available dictionaries
 
+            list
+
+        The output format is 'name: description'.
+        It will highlight the dictionary in use (if any)
+        """
         for d in self.dictionaries:
             if d == self.current_dictionary:
                 print("[{name}]: {description}".format(**self.dictionaries[d]))
@@ -76,14 +90,23 @@ class DictionaryShell(cmd.Cmd):
         print("")
 
     def do_select(self, arg):
-        """select,s: select the dictionary to use"""
+        """
+        select: select the dictionary to use
+
+           select <dictionary-name>
+
+        You can use the ``list`` command for the list of available dictionaries
+        """
+
         if arg in self.dictionaries:
             self.current_dictionary = arg
         else:
             print("Dictionary \"{}\" does not exist".format(arg))
 
     def do_find(self, arg):
-        """find, f: find a word in the current dictionary"""
+        """
+        find: find a word in the current dictionary
+        """
         if " " in arg:
             print("For the time being this program support only single words")
             return False
