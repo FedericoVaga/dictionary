@@ -24,11 +24,14 @@ class DictionaryShell(cmd.Cmd):
 
     def __find_wr_trans(self, _from, _to, arg):
         """Run Transation using Wordreference"""
-        w = PyWordReference.Translator()
-        res = w.search(_from, _to, arg)
-        print("Copyright WordReference: {url}".format(url=res["url"]))
-        for t in res["translation"]:
-            print(str(t).encode('ascii', 'ignore').decode("ascii"))
+        try:
+            w = PyWordReference.Translator(self.wr_api_key)
+            res = w.search(_from, _to, arg)
+            print("Copyright WordReference: {url}".format(url=res["url"]))
+            for t in res["translation"]:
+                print(str(t).encode('ascii', 'ignore').decode("ascii"))
+        except PyWordReference.TranslatorException as e:
+            print(e)
 
     def find_wr_enit(self, arg):
         """Find function from English to Italian using Wordreference"""
